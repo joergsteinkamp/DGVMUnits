@@ -30,6 +30,8 @@
   operators <- strsplit(operators, '', perl=TRUE)
 
   for (i in 1:length(units)) {
+    if (!length(operators[[i]]))
+      break
     for (j in 1:length(operators[[i]])) {
       if (operators[[i]][j] == "/")
         exponents[[i]][j+1] = -1 * exponents[[i]][j+1]
@@ -63,7 +65,7 @@
 
   ## parse special strings
   if (x=="ha") {
-    return(list(1.e4, "m", 2))
+    return(list("m", 100, 2))
   } else if (x=="sec") {
     return(list("s", 1, 1))
   } else if (x=="min") {
@@ -198,7 +200,7 @@ as.RVCUnit <- function(x=NA) {
   exponents <- sort(exponents, decreasing=TRUE)
   
   rt <- paste(names(exponents), exponents, sep="\u005E", collapse=" ")
-  return(gsub("\\\u005E1 ", " ", rt))
+  return(gsub("\\\u005E1", "", rt))
 }
 
 ## x <- as.RVCUnit("kW h m-2")
