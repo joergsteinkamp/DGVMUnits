@@ -1,0 +1,11 @@
+Package: RVCUnits
+Version: 0.0.1
+Title: Process unit strings
+Date: 2016-01-19
+Author: Joerg Steinkamp
+Maintainer: Joerg Steinkamp <joerg.steinkamp@senckenberg.de>
+Depends: R (>= 2.15.0), udunits2
+Description: Processes unit strings, including cancelation, multiplication. Tries to be CF-conform.
+License: GPL (>= 2)
+URL: http://joergsteinkamp.wordpress.com
+NeedsCompilation: no
