@@ -1,22 +1,22 @@
-## Includes those base units currently:
-##
-## g: gramm
-## m: meter
-## s: seconds
-## W: Watts
-##
-## each unit has two parts:
-## 1.) the multiplier (from k(ilo), n(ano), h(our), yr, ...)
-## 2.) exponents if it is multiplied
-##     and if it is in the nominator (positive) or denominator (negative)
-
+#' An S4 class holding the unit information.
+#'
+#'Each slot consists of a two element vector, holding the numeric unit prefix (multiplier) and exponent (the nominator is positive and the denominator negative).
+#'
+#' @slot g for gram
+#' @slot m for meter
+#' @slot W for watts
+#' @slot s for seconds
+#' @slot K for Kelvin
+#' @import methods
 setClass("RVCUnit",
          representation(g="numeric",
                         m="numeric",
                         W="numeric",
-                        s="numeric"),
+                        s="numeric",
+                        K="numeric"),
          prototype(g=c(1, 0),
                    m=c(1, 0),
                    W=c(1, 0),
-                   s=c(1, 0)
+                   s=c(1, 0),
+                   K=c(1, 0)
                    ))

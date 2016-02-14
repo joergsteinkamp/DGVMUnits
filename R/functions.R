@@ -1,3 +1,17 @@
+#' Division of two unit strings
+#' 
+#' Divides two RVCUnit objects.
+#'
+#' @param a An RVCUnit object.
+#' @param b An RVCUnit object.
+#' @return A new RVCUnit object.
+#'
+#' @examples
+#' x <- as.RVCUnit("kg/m2")
+#' y <- as.RVCUnit("ha")
+#' ret <- multiply(x,y)
+#' as.character(ret)
+#' @export
 divide <- function(a,b) {
   class.def <- class(a)
   if (is.null(attr(class.def, "package")))
@@ -25,6 +39,20 @@ divide <- function(a,b) {
   return(rt)
 }
 
+#' Multiplication of two RVCUnit objects
+#' 
+#' Multiplies two RVCUnit objects.
+#' 
+#' @param a An RVCUnit object.
+#' @param b An RVCUnit object.
+#' @return A new RVCUnit object.
+#'
+#' @examples
+#' x <- as.RVCUnit("kg/m2")
+#' y <- as.RVCUnit("kg m^-2 yr^-1")
+#' ret <- divide(x,y)
+#' as.character(ret)
+#' @export
 multiply <- function(a,b) {
   class.def <- class(a)
   if (is.null(attr(class.def, "package")))

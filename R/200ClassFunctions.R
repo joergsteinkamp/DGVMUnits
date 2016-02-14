@@ -5,22 +5,22 @@
 .char.split <- function(x) {
   ## remove the hat
   x <- gsub('\\\u005E', '', x)
-  ## replace the multiplication sign
+  ## replace the multiplication sign by a space
   x <- gsub('\\\u002A', ' ', x)
   units <- strsplit(x, '[ /]')
 
-  ## get the exponents and 
+  ## get the exponents and unit prefixes
   exponents <- list()
-  scales    <- list() 
+  prefix    <- list() 
   for (i in 1:length(units)) {
-    exponents[[i]] <- as.numeric(gsub('[a-zA-Z]', '', units[[i]]))
+    exponents[[i]] <- as.numeric(gsub('[\u00B0a-zA-Z]', '', units[[i]]))
     exponents[[i]][is.na(exponents[[i]])] = 1
     units[[i]] <- gsub('[0-9\\-]', '', units[[i]])
-    scales[[i]] <- rep(NA, length(units[[i]]))
+    prefix[[i]] <- rep(NA, length(units[[i]]))
     for (j in 1:length(units[[i]])) {
       baseunit <- .baseunit(units[[i]][j])
       units[[i]][j] = baseunit[[1]]
-      scales[[i]][j] = baseunit[[2]]
+      prefix[[i]][j] = baseunit[[2]]
       exponents[[i]][j] = exponents[[i]][j] * baseunit[[3]]
     }
   }
@@ -38,14 +38,14 @@
     }
   }
 
-  return(list(units=units, scales=scales, exponents=exponents))
+  return(list(units=units, prefix=prefix, exponents=exponents))
 }
 
 #######################################################################
 ## split a baseunit part into its components: #########################
 ## baseunit, scale factor, exponent           #########################
 #######################################################################
-
+#' @importFrom udunits2 ud.convert
 .baseunit <- function(x) {
   if (length(x)>1 && !is.character(x))
     stop(paste("'x' is no character of has a length > 1:", x))
@@ -59,6 +59,8 @@
     return(list("m", 1.e-3, 3))
   } else if (x=="t") {
     return(list("g", 1.e6, 1))
+  } else if (x=="C" || x=="\u00B0C") {
+    return(list("K", 273.15, 1))
   } else if (nchar(x)==1) {
     return(list(x, 1, 1))
   }
@@ -72,7 +74,7 @@
     return(list("s", 60, 1))
   } else if (x=="yr") {
     return(list("s", ud.convert(1, "yr", "s"), 1))
-  } 
+  }
 
   ## pico, nano, ..., Peta
   if (grepl("^p", x)) {
@@ -102,14 +104,22 @@
   } else if (grepl("^P", x)) {
     return(list(sub('^P', '', x), 1.e15, 1))
   } else {
-    stop("Sh..! That should not have happened!")
+    stop(paste("Sh..! That should not have happened:", x))
   }
 }
 
 #######################################################################
 ## Function to create a new unit element from strings #################
 #######################################################################
-
+#' Creates a RVCUnit object from a unit string.
+#' 
+#' @param x A string or a vector of strings parsable as units.
+#' @return An RVCUnit object.
+#' @examples
+#' x <- as.RVCUnit("kW h m-2")
+#' units <- c("m2 s", "m2/s", "m^2*s", "C d")
+#' x <- as.RVCUnit(units)
+#' @export
 as.RVCUnit <- function(x=NA) {
   if (all(is.na(x)))
     return(new("RVCUnit"))
@@ -119,10 +129,9 @@ as.RVCUnit <- function(x=NA) {
 
   if (any(grepl('[()]', x)))
     stop("Bracket parsing not implemented!")
-  
+
   ## parse
   x <- .char.split(x)
-
   if (length(x[[1]])==1) {
     pstr <- paste(x[[1]][[1]], "=c(", x[[2]][[1]], ", ", x[[3]][[1]],")", sep="", collapse=", ")
     return(eval(parse(text=paste("new('RVCUnit',", pstr, ")", sep=""))))
@@ -140,7 +149,7 @@ as.RVCUnit <- function(x=NA) {
 #######################################################################
 ## return a string, which is udunits/CF conform #######################
 #######################################################################
-
+#' @importFrom udunits2 ud.convert
 .as.char <- function(x) {
   class.def <- class(x)
   if (is.null(attr(class.def, "package")))
@@ -148,7 +157,7 @@ as.RVCUnit <- function(x=NA) {
   if (class.def[1] != "RVCUnit" && attr(class.def, "package") != "RVCUnits")
     stop("Input not class RVCUnits:RVCUnit")
 
-  y = list(g=x@g, m=x@m, W=x@W, s=x@s)
+  y = list(g=x@g, m=x@m, K=x@K, W=x@W, s=x@s)
   ## remove unused unit parts
   if (y[['g']][2] == 0)
     y[['g']] <- NULL
@@ -158,6 +167,8 @@ as.RVCUnit <- function(x=NA) {
     y[['s']] <- NULL
   if (y[['W']][2] == 0)
     y[['W']] <- NULL
+  if (y[['K']][2] == 0)
+    y[['K']] <- NULL
 
   for (i in 1:length(names(y))) {
     if (!is.null(y[[i]])) {
@@ -171,6 +182,8 @@ as.RVCUnit <- function(x=NA) {
         } else if (y[[i]][1]==ud.convert(1, "yr", "s")) {
           names(y)[i] <- "yr"
         }
+      } else if (names(y)[i]=="K" && y[[i]][1]==273.15) {
+        names(y)[i] <- "\u00B0C"
       } else {
         if (y[[i]][1]==1.e-12) {
           names(y)[i] <- paste("p", names(y)[i], sep="")
@@ -191,34 +204,20 @@ as.RVCUnit <- function(x=NA) {
         } else if (y[[i]][1]==1.e15) {
           names(y)[i] <- paste("P", names(y)[i], sep="")
         } 
-
       }
     }
   }
   ## sort with decreasing exponents
   exponents <- sapply(y ,"[[", 2)
   exponents <- sort(exponents, decreasing=TRUE)
-  
+
   rt <- paste(names(exponents), exponents, sep="\u005E", collapse=" ")
   return(gsub("\\\u005E1", "", rt))
 }
-
-## x <- as.RVCUnit("kW h m-2")
-
-## test.str <- c("m2 s", "m2/s", "m^2*s", "W m^-2 s^-1")
-## x <- as.RVCUnit(test.str)
-
-## test.str <- c("m2 s", "m2/s", "m^2*s", "W m^-2 s^-1")
-## x <- as.RVCUnit(test.str)
-
-
-## x <- as.RVCUnit("kg/m2")
-## y <- as.RVCUnit("kg m^-2 yr^-1")
-## divide(x,y)
-
 
 ## sprintf("%X", as.integer(charToRaw("^"))) => 5E
 ## paste0("\u005E") => "^"
 ## sprintf("%X", as.integer(charToRaw("*"))) => 2A
 ## paste0("\u002A") => "*"
-
+## sprintf("%X", as.integer(charToRaw("°"))) => C2 B0
+## paste0("\u00B0")
