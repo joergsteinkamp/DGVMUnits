@@ -120,6 +120,7 @@
 #' units <- c("m2 s", "m2/s", "m^2*s", "C d")
 #' x <- as.RVCUnit(units)
 #' @export
+#' @author Joerg Steinkamp \email{joerg.steinkamp@@senckenberg.de}
 as.RVCUnit <- function(x=NA) {
   if (all(is.na(x)))
     return(new("RVCUnit"))

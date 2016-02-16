@@ -20,4 +20,7 @@ Each slot consists of a two element vector, holding the numeric unit prefix (mul
 
 \item{\code{K}}{for Kelvin}
 }}
+\author{
+Joerg Steinkamp \email{joerg.steinkamp@senckenberg.de}
+}
 

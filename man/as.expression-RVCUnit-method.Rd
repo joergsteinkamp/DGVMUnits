@@ -25,4 +25,7 @@ units <- c("m2 s", "m2/s", "m^2*s", "C d")
 x <- as.RVCUnit(units)
 sapply(x, as.expression)
 }
+\author{
+Joerg Steinkamp \email{joerg.steinkamp@senckenberg.de}
+}
 

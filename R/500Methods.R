@@ -13,6 +13,7 @@
 #' x <- as.RVCUnit(units)
 #' sapply(x, as.character)
 #' @export
+#' @author Joerg Steinkamp \email{joerg.steinkamp@@senckenberg.de}
 setMethod("as.character", signature("RVCUnit"), function(x, ...) {
   return(.as.char(x))
 })
@@ -32,6 +33,7 @@ setMethod("as.character", signature("RVCUnit"), function(x, ...) {
 #' x <- as.RVCUnit(units)
 #' sapply(x, as.expression)
 #' @export
+#' @author Joerg Steinkamp \email{joerg.steinkamp@@senckenberg.de}
 setMethod("as.expression", signature("RVCUnit"), function(x, ...) {
   x <- .as.char(x)
   x <- gsub(" ", "\u007E", x)
