@@ -1,34 +1,35 @@
 #' Division of two unit strings
 #' 
-#' Divides two RVCUnit objects.
+#' Divides two DGVMUnit objects.
 #'
-#' @param a An RVCUnit object.
-#' @param b An RVCUnit object.
-#' @return A new RVCUnit object.
+#' @param a An DGVMUnit object.
+#' @param b An DGVMUnit object.
+#' @return A new DGVMUnit object.
 #'
 #' @examples
-#' x <- as.RVCUnit("kg/m2")
-#' y <- as.RVCUnit("ha")
+#' x <- as.DGVMUnit("kg/m2")
+#' y <- as.DGVMUnit("ha")
 #' ret <- multiply(x,y)
 #' as.character(ret)
 #' @export
 #' @author Joerg Steinkamp \email{joerg.steinkamp@@senckenberg.de}
+#' @include 500Methods.R
 divide <- function(a,b) {
   class.def <- class(a)
   if (is.null(attr(class.def, "package")))
     stop("Input seems not to be a class.")
-  if (class.def[1] != "RVCUnit" && attr(class.def, "package") != "RVCUnits")
-    stop("Input not class RVCUnits:RVCUnit")
+  if (class.def[1] != "DGVMUnit" && attr(class.def, "package") != "DGVMUnits")
+    stop("Input not class DGVMUnits:DGVMUnit")
   class.def <- class(b)
   if (is.null(attr(class.def, "package")))
     stop("Input seems not to be a class.")
-  if (class.def[1] != "RVCUnit" && attr(class.def, "package") != "RVCUnits")
-    stop("Input not class RVCUnits:RVCUnit")
+  if (class.def[1] != "DGVMUnit" && attr(class.def, "package") != "DGVMUnits")
+    stop("Input not class DGVMUnits:DGVMUnit")
 
   if (a@K[1]!=b@K[1])
     stop("Cannot divide Kelvin and Celsius!")
   
-  rt <- new("RVCUnit")
+  rt <- new("DGVMUnit")
   
   rt@g[2] = a@g[2] - b@g[2]
   rt@m[2] = a@m[2] - b@m[2]
@@ -45,37 +46,38 @@ divide <- function(a,b) {
   return(rt)
 }
 
-#' Multiplication of two RVCUnit objects
+#' Multiplication of two DGVMUnit objects
 #' 
-#' Multiplies two RVCUnit objects.
+#' Multiplies two DGVMUnit objects.
 #' 
-#' @param a An RVCUnit object.
-#' @param b An RVCUnit object.
-#' @return A new RVCUnit object.
+#' @param a An DGVMUnit object.
+#' @param b An DGVMUnit object.
+#' @return A new DGVMUnit object.
 #'
 #' @examples
-#' x <- as.RVCUnit("kg/m2")
-#' y <- as.RVCUnit("kg m^-2 yr^-1")
+#' x <- as.DGVMUnit("kg/m2")
+#' y <- as.DGVMUnit("kg m^-2 yr^-1")
 #' ret <- divide(x,y)
 #' as.character(ret)
 #' @export
 #' @author Joerg Steinkamp \email{joerg.steinkamp@@senckenberg.de}
+#' @include 500Methods.R
 multiply <- function(a,b) {
   class.def <- class(a)
   if (is.null(attr(class.def, "package")))
     stop("Input seems not to be a class.")
-  if (class.def[1] != "RVCUnit" && attr(class.def, "package") != "RVCUnits")
-    stop("Input not class RVCUnits:RVCUnit")
+  if (class.def[1] != "DGVMUnit" && attr(class.def, "package") != "DGVMUnits")
+    stop("Input not class DGVMUnits:DGVMUnit")
   class.def <- class(b)
   if (is.null(attr(class.def, "package")))
     stop("Input seems not to be a class.")
-  if (class.def[1] != "RVCUnit" && attr(class.def, "package") != "RVCUnits")
-    stop("Input not class RVCUnits:RVCUnit")
+  if (class.def[1] != "DGVMUnit" && attr(class.def, "package") != "DGVMUnits")
+    stop("Input not class DGVMUnits:DGVMUnit")
 
   if (a@K[1]!=b@K[1])
     stop("Cannot divide Kelvin and Celsius!")
   
-  rt <- new("RVCUnit")
+  rt <- new("DGVMUnit")
   
   rt@g[2] = a@g[2] + b@g[2]
   rt@m[2] = a@m[2] + b@m[2]
@@ -91,31 +93,32 @@ multiply <- function(a,b) {
   
   return(rt)
 }
-#' Comarison two RVCUnit objects
+#' Comarison two DGVMUnit objects
 #' 
-#' Checks if two RVCUnit objects are identical.
+#' Checks if two DGVMUnit objects are identical.
 #' 
-#' @param a An RVCUnit object.
-#' @param b An RVCUnit object.
+#' @param a An DGVMUnit object.
+#' @param b An DGVMUnit object.
 #' @return boolean
 #'
 #' @examples
-#' x <- as.RVCUnit("kg/m2")
-#' y <- as.RVCUnit("kg ha^-2")
+#' x <- as.DGVMUnit("kg/m2")
+#' y <- as.DGVMUnit("kg ha^-2")
 #' ret <- equal(x,y)
 #' @export
 #' @author Joerg Steinkamp \email{joerg.steinkamp@@senckenberg.de}
+#' @include 500Methods.R
 equal <- function(a,b) {
   class.def <- class(a)
   if (is.null(attr(class.def, "package")))
     stop("Input seems not to be a class.")
-  if (class.def[1] != "RVCUnit" && attr(class.def, "package") != "RVCUnits")
-    stop("Input not class RVCUnits:RVCUnit")
+  if (class.def[1] != "DGVMUnit" && attr(class.def, "package") != "DGVMUnits")
+    stop("Input not class DGVMUnits:DGVMUnit")
   class.def <- class(b)
   if (is.null(attr(class.def, "package")))
     stop("Input seems not to be a class.")
-  if (class.def[1] != "RVCUnit" && attr(class.def, "package") != "RVCUnits")
-    stop("Input not class RVCUnits:RVCUnit")
+  if (class.def[1] != "DGVMUnit" && attr(class.def, "package") != "DGVMUnits")
+    stop("Input not class DGVMUnits:DGVMUnit")
   
   if (a@g[1]==b@g[1] && a@g[2]==b@g[2] &&
       a@m[1]==b@m[1] && a@m[2]==b@m[2] &&
@@ -126,31 +129,32 @@ equal <- function(a,b) {
   return(FALSE)
 }
 
-#' Comarison two RVCUnit objects
+#' Comarison two DGVMUnit objects
 #' 
-#' Checks if two RVCUnit objects are comparable (only different in unit prefixes).
+#' Checks if two DGVMUnit objects are comparable (only different in unit prefixes).
 #' 
-#' @param a An RVCUnit object.
-#' @param b An RVCUnit object.
+#' @param a An DGVMUnit object.
+#' @param b An DGVMUnit object.
 #' @return boolean
 #'
 #' @examples
-#' x <- as.RVCUnit("kg/m2")
-#' y <- as.RVCUnit("kg ha^-2")
+#' x <- as.DGVMUnit("kg/m2")
+#' y <- as.DGVMUnit("kg ha^-2")
 #' ret <- comparable(x,y)
 #' @export
 #' @author Joerg Steinkamp \email{joerg.steinkamp@@senckenberg.de}
+#' @include 500Methods.R
 comparable <- function(a,b) {
   class.def <- class(a)
   if (is.null(attr(class.def, "package")))
     stop("Input seems not to be a class.")
-  if (class.def[1] != "RVCUnit" && attr(class.def, "package") != "RVCUnits")
-    stop("Input not class RVCUnits:RVCUnit")
+  if (class.def[1] != "DGVMUnit" && attr(class.def, "package") != "DGVMUnits")
+    stop("Input not class DGVMUnits:DGVMUnit")
   class.def <- class(b)
   if (is.null(attr(class.def, "package")))
     stop("Input seems not to be a class.")
-  if (class.def[1] != "RVCUnit" && attr(class.def, "package") != "RVCUnits")
-    stop("Input not class RVCUnits:RVCUnit")
+  if (class.def[1] != "DGVMUnit" && attr(class.def, "package") != "DGVMUnits")
+    stop("Input not class DGVMUnits:DGVMUnit")
   
   if (a@g[2]==b@g[2] &&
       a@m[2]==b@m[2] &&

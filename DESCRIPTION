@@ -1,7 +1,7 @@
-Package: RVCUnits
+Package: DGVMUnits
 Version: 0.0.1
 Title: Process unit strings
-Date: 2016-01-19
+Date: 2017-02-20
 Author: Joerg Steinkamp
 Maintainer: Joerg Steinkamp <joerg.steinkamp@senckenberg.de>
 Depends:
@@ -14,3 +14,8 @@ License: GPL (>= 2)
 URL: http://joergsteinkamp.wordpress.com
 NeedsCompilation: no
 RoxygenNote: 5.0.1
+Collate:
+    '000ClassDef.R'
+    '200ClassFunctions.R'
+    '500Methods.R'
+    'functions.R'

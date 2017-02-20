@@ -2,24 +2,24 @@
 % Please edit documentation in R/functions.R
 \name{multiply}
 \alias{multiply}
-\title{Multiplication of two RVCUnit objects}
+\title{Multiplication of two DGVMUnit objects}
 \usage{
 multiply(a, b)
 }
 \arguments{
-\item{a}{An RVCUnit object.}
+\item{a}{An DGVMUnit object.}
 
-\item{b}{An RVCUnit object.}
+\item{b}{An DGVMUnit object.}
 }
 \value{
-A new RVCUnit object.
+A new DGVMUnit object.
 }
 \description{
-Multiplies two RVCUnit objects.
+Multiplies two DGVMUnit objects.
 }
 \examples{
-x <- as.RVCUnit("kg/m2")
-y <- as.RVCUnit("kg m^-2 yr^-1")
+x <- as.DGVMUnit("kg/m2")
+y <- as.DGVMUnit("kg m^-2 yr^-1")
 ret <- divide(x,y)
 as.character(ret)
 }

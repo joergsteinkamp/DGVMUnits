@@ -1,7 +1,7 @@
 #######################################################################
 ## Internal function to split a string into its unit components #######
 #######################################################################
-
+#' @include 000ClassDef.R
 .char.split <- function(x) {
   ## remove the hat
   x <- gsub('\\\u005E', '', x)
@@ -46,6 +46,7 @@
 ## baseunit, scale factor, exponent           #########################
 #######################################################################
 #' @importFrom udunits2 ud.convert
+#' @include 000ClassDef.R
 .baseunit <- function(x) {
   if (length(x)>1 && !is.character(x))
     stop(paste("'x' is no character of has a length > 1:", x))
@@ -111,19 +112,20 @@
 #######################################################################
 ## Function to create a new unit element from strings #################
 #######################################################################
-#' Creates a RVCUnit object from a unit string.
+#' Creates a DGVMUnit object from a unit string.
 #' 
 #' @param x A string or a vector of strings parsable as units.
-#' @return An RVCUnit object.
+#' @return An DGVMUnit object.
 #' @examples
-#' x <- as.RVCUnit("kW h m-2")
+#' x <- as.DGVMUnit("kW h m-2")
 #' units <- c("m2 s", "m2/s", "m^2*s", "C d")
-#' x <- as.RVCUnit(units)
+#' x <- as.DGVMUnit(units)
 #' @export
 #' @author Joerg Steinkamp \email{joerg.steinkamp@@senckenberg.de}
-as.RVCUnit <- function(x=NA) {
+#' @include 000ClassDef.R
+as.DGVMUnit <- function(x=NA) {
   if (all(is.na(x)))
-    return(new("RVCUnit"))
+    return(new("DGVMUnit"))
 
   if (!is.character(x))
     stop("Need characters/strings as input!")
@@ -133,15 +135,15 @@ as.RVCUnit <- function(x=NA) {
 
   ## parse
   x <- .char.split(x)
-  if (length(x[[1]])==1) {
+  if (length(x[[1]]) == 1) {
     pstr <- paste(x[[1]][[1]], "=c(", x[[2]][[1]], ", ", x[[3]][[1]],")", sep="", collapse=", ")
-    return(eval(parse(text=paste("new('RVCUnit',", pstr, ")", sep=""))))
+    return(eval(parse(text=paste("new('DGVMUnit',", pstr, ")", sep=""))))
   }
 
   rt <- list()
   for (i in 1:length(x[[1]])) {
     pstr <- paste(x[[1]][[i]], "=c(", x[[2]][[i]], ", ", x[[3]][[i]],")", sep="", collapse=", ")
-    rt[i] <- eval(parse(text=paste("new('RVCUnit',", pstr, ")", sep="")))
+    rt[[i]] <- eval(parse(text=paste("new('DGVMUnit',", pstr, ")", sep="")))
   }
   
   return(rt)
@@ -151,13 +153,14 @@ as.RVCUnit <- function(x=NA) {
 ## return a string, which is udunits/CF conform #######################
 #######################################################################
 #' @importFrom udunits2 ud.convert
+#' @include 000ClassDef.R
 .as.char <- function(x) {
   class.def <- class(x)
   if (is.null(attr(class.def, "package")))
     stop("Input seems not to be a class.")
-  if (class.def[1] != "RVCUnit" && attr(class.def, "package") != "RVCUnits")
-    stop("Input not class RVCUnits:RVCUnit")
-
+  if (class.def[1] != "DGVMUnit" && attr(class.def, "package") != "DGVMUnits")
+    stop("Input not class DGVMUnits:DGVMUnit")
+  
   y = list(g=x@g, m=x@m, K=x@K, W=x@W, s=x@s)
   ## remove unused unit parts
   if (y[['g']][2] == 0)

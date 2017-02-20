@@ -2,24 +2,24 @@
 % Please edit documentation in R/functions.R
 \name{comparable}
 \alias{comparable}
-\title{Comarison two RVCUnit objects}
+\title{Comarison two DGVMUnit objects}
 \usage{
 comparable(a, b)
 }
 \arguments{
-\item{a}{An RVCUnit object.}
+\item{a}{An DGVMUnit object.}
 
-\item{b}{An RVCUnit object.}
+\item{b}{An DGVMUnit object.}
 }
 \value{
 boolean
 }
 \description{
-Checks if two RVCUnit objects are comparable (only different in unit prefixes).
+Checks if two DGVMUnit objects are comparable (only different in unit prefixes).
 }
 \examples{
-x <- as.RVCUnit("kg/m2")
-y <- as.RVCUnit("kg ha^-2")
+x <- as.DGVMUnit("kg/m2")
+y <- as.DGVMUnit("kg ha^-2")
 ret <- comparable(x,y)
 }
 \author{

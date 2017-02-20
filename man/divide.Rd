@@ -7,19 +7,19 @@
 divide(a, b)
 }
 \arguments{
-\item{a}{An RVCUnit object.}
+\item{a}{An DGVMUnit object.}
 
-\item{b}{An RVCUnit object.}
+\item{b}{An DGVMUnit object.}
 }
 \value{
-A new RVCUnit object.
+A new DGVMUnit object.
 }
 \description{
-Divides two RVCUnit objects.
+Divides two DGVMUnit objects.
 }
 \examples{
-x <- as.RVCUnit("kg/m2")
-y <- as.RVCUnit("ha")
+x <- as.DGVMUnit("kg/m2")
+y <- as.DGVMUnit("ha")
 ret <- multiply(x,y)
 as.character(ret)
 }
