@@ -188,27 +188,27 @@ as.DGVMUnit <- function(x=NA) {
         }
       } else if (names(y)[i]=="K" && y[[i]][1]==273.15) {
         names(y)[i] <- "\u00B0C"
-      } else {
-        if (y[[i]][1]==1.e-12) {
-          names(y)[i] <- paste("p", names(y)[i], sep="")
-        } else if (y[[i]][1]==1.e-9) {
-          names(y)[i] <- paste("n", names(y)[i], sep="")
-        } else if (y[[i]][1]==1.e-6) {
-          names(y)[i] <- paste("\u00B5", names(y)[i], sep="")
-        } else if (y[[i]][1]==1.e-3) {
-          names(y)[i] <- paste("m", names(y)[i], sep="")
-        } else if (y[[i]][1]==1.e3) {
-          names(y)[i] <- paste("k", names(y)[i], sep="")
-        } else if (y[[i]][1]==1.e6) {
-          names(y)[i] <- paste("M", names(y)[i], sep="")
-        } else if (y[[i]][1]==1.e9) {
-          names(y)[i] <- paste("G", names(y)[i], sep="")
-        } else if (y[[i]][1]==1.e12) {
-          names(y)[i] <- paste("T", names(y)[i], sep="")
-        } else if (y[[i]][1]==1.e15) {
-          names(y)[i] <- paste("P", names(y)[i], sep="")
-        } 
-      }
+      } 
+
+      if (y[[i]][1]==1.e-12) {
+        names(y)[i] <- paste("p", names(y)[i], sep="")
+      } else if (y[[i]][1]==1.e-9) {
+        names(y)[i] <- paste("n", names(y)[i], sep="")
+      } else if (y[[i]][1]==1.e-6) {
+        names(y)[i] <- paste("\u00B5", names(y)[i], sep="")
+      } else if (y[[i]][1]==1.e-3) {
+        names(y)[i] <- paste("m", names(y)[i], sep="")
+      } else if (y[[i]][1]==1.e3) {
+        names(y)[i] <- paste("k", names(y)[i], sep="")
+      } else if (y[[i]][1]==1.e6) {
+        names(y)[i] <- paste("M", names(y)[i], sep="")
+      } else if (y[[i]][1]==1.e9) {
+        names(y)[i] <- paste("G", names(y)[i], sep="")
+      } else if (y[[i]][1]==1.e12) {
+        names(y)[i] <- paste("T", names(y)[i], sep="")
+      } else if (y[[i]][1]==1.e15) {
+        names(y)[i] <- paste("P", names(y)[i], sep="")
+      } 
     }
   }
   ## sort with decreasing exponents
