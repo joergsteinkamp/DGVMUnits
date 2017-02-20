@@ -26,7 +26,7 @@ divide <- function(a,b) {
   if (class.def[1] != "DGVMUnit" && attr(class.def, "package") != "DGVMUnits")
     stop("Input not class DGVMUnits:DGVMUnit")
 
-  if (a@K[1]!=b@K[1])
+  if (a@K[1] != b@K[1])
     stop("Cannot divide Kelvin and Celsius!")
   
   rt <- new("DGVMUnit")
@@ -42,7 +42,7 @@ divide <- function(a,b) {
   rt@W[1] = a@W[1]^a@W[2] / b@W[1]^b@W[2]
   rt@s[1] = a@s[1]^a@s[2] / b@s[1]^b@s[2]
   rt@K[1] = a@K[1]
-  
+
   return(rt)
 }
 
@@ -74,7 +74,7 @@ multiply <- function(a,b) {
   if (class.def[1] != "DGVMUnit" && attr(class.def, "package") != "DGVMUnits")
     stop("Input not class DGVMUnits:DGVMUnit")
 
-  if (a@K[1]!=b@K[1])
+  if (a@K[1] != b@K[1])
     stop("Cannot divide Kelvin and Celsius!")
   
   rt <- new("DGVMUnit")
@@ -90,7 +90,7 @@ multiply <- function(a,b) {
   rt@W[1] = a@W[1]^a@W[2] * b@W[1]^b@W[2]
   rt@s[1] = a@s[1]^a@s[2] * b@s[1]^b@s[2]
   rt@K[1] = a@K[1]
-  
+
   return(rt)
 }
 #' Comarison two DGVMUnit objects
@@ -120,11 +120,11 @@ equal <- function(a,b) {
   if (class.def[1] != "DGVMUnit" && attr(class.def, "package") != "DGVMUnits")
     stop("Input not class DGVMUnits:DGVMUnit")
   
-  if (a@g[1]==b@g[1] && a@g[2]==b@g[2] &&
-      a@m[1]==b@m[1] && a@m[2]==b@m[2] &&
-      a@W[1]==b@W[1] && a@W[2]==b@W[2] &&
-      a@s[1]==b@s[1] && a@s[2]==b@s[2] &&
-      a@K[1]==b@K[1] && a@K[2]==b@K[2])
+  if (a@g[1] == b@g[1] && a@g[2] == b@g[2] &&
+      a@m[1] == b@m[1] && a@m[2] == b@m[2] &&
+      a@W[1] == b@W[1] && a@W[2] == b@W[2] &&
+      a@s[1] == b@s[1] && a@s[2] == b@s[2] &&
+      a@K[1] == b@K[1] && a@K[2] == b@K[2])
     return(TRUE)
   return(FALSE)
 }
@@ -156,11 +156,11 @@ comparable <- function(a,b) {
   if (class.def[1] != "DGVMUnit" && attr(class.def, "package") != "DGVMUnits")
     stop("Input not class DGVMUnits:DGVMUnit")
   
-  if (a@g[2]==b@g[2] &&
-      a@m[2]==b@m[2] &&
-      a@W[2]==b@W[2] &&
-      a@s[2]==b@s[2] &&
-      a@K[2]==b@K[2])
+  if (a@g[2] == b@g[2] &&
+      a@m[2] == b@m[2] &&
+      a@W[2] == b@W[2] &&
+      a@s[2] == b@s[2] &&
+      a@K[2] == b@K[2])
     return(TRUE)
   return(FALSE)
 }
