@@ -77,6 +77,9 @@
     return(list("s", ud.convert(1, "yr", "s"), 1))
   }
 
+  if (grepl('^[kMGTP]s', x))
+    stop(paste0("The temporal unit '", x, "' does not make any sense. Use min, hour, day or yr instead!"))
+  
   ## pico, nano, ..., Peta
   if (grepl("^p", x)) {
     return(list(sub('^p', '', x), 1.e-12, 1))
