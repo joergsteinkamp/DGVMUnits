@@ -128,7 +128,6 @@
 #' units <- c("m2 s", "m2/s", "m^2*s", "C d")
 #' x <- as.DGVMUnit(units)
 #' @export
-#' @author Joerg Steinkamp \email{joerg.steinkamp@@senckenberg.de}
 #' @include 000ClassDef.R
 as.DGVMUnit <- function(x=NA) {
   if (all(is.na(x)))

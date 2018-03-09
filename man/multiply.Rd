@@ -23,7 +23,3 @@ y <- as.DGVMUnit("kg m^-2 yr^-1")
 ret <- divide(x,y)
 as.character(ret)
 }
-\author{
-Joerg Steinkamp \email{joerg.steinkamp@senckenberg.de}
-}
-

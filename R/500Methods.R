@@ -13,7 +13,6 @@
 #' x <- as.DGVMUnit(units)
 #' sapply(x, as.character)
 #' @export
-#' @author Joerg Steinkamp \email{joerg.steinkamp@@senckenberg.de}
 #' @include 200ClassFunctions.R
 setMethod("as.character", signature("DGVMUnit"), function(x, ...) {
   return(.as.char(x))
@@ -27,7 +26,6 @@ setMethod("as.character", signature("DGVMUnit"), function(x, ...) {
 #' @param ... Ignored further arguments.
 #' @return an expression
 #'
-#' @author Joerg Steinkamp \email{joerg.steinkamp@@senckenberg.de}
 #' @include 200ClassFunctions.R
 #'
 #' @examples
@@ -37,7 +35,6 @@ setMethod("as.character", signature("DGVMUnit"), function(x, ...) {
 #' x <- as.DGVMUnit(units)
 #' sapply(x, as.expression)
 #' @export
-#' @author Joerg Steinkamp \email{joerg.steinkamp@@senckenberg.de}
 #' @include 200ClassFunctions.R
 setMethod("as.expression", signature("DGVMUnit"), function(x, ...) {
   x <- .as.char(x)

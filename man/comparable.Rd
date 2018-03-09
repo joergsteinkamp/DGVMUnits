@@ -22,7 +22,3 @@ x <- as.DGVMUnit("kg/m2")
 y <- as.DGVMUnit("kg ha^-2")
 ret <- comparable(x,y)
 }
-\author{
-Joerg Steinkamp \email{joerg.steinkamp@senckenberg.de}
-}
-

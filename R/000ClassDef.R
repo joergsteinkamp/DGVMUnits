@@ -8,7 +8,6 @@
 #' @slot s for seconds
 #' @slot K for Kelvin
 #' @import methods
-#' @author Joerg Steinkamp \email{joerg.steinkamp@@senckenberg.de}
 setClass("DGVMUnit",
          representation(g="numeric",
                         m="numeric",

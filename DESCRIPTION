@@ -3,17 +3,18 @@ Version: 0.0.1
 Title: Process unit strings
 Date: 2017-02-20
 Author: Joerg Steinkamp
-Maintainer: Joerg Steinkamp <joerg.steinkamp@senckenberg.de>
+Maintainer: Joerg Steinkamp <steinkamp.joerg@gmail.com>
 Depends:
     R (>= 2.15.0),
     methods,
     udunits2
 Description: Processes unit strings, including cancelation, multiplication.
     Tries to be CF-conform.
-License: GPL (>= 2)
-URL: http://joergsteinkamp.wordpress.com
+License: GPL-3 | file LICENSE
+URL: https://github.com/joergsteinkamp/DGVMUnits
+BugReports: https://github.com/joergsteinkamp/DGVMUnits/issues
 NeedsCompilation: no
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1
 Collate:
     '000ClassDef.R'
     '200ClassFunctions.R'

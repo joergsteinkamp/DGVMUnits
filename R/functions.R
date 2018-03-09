@@ -12,7 +12,6 @@
 #' ret <- multiply(x,y)
 #' as.character(ret)
 #' @export
-#' @author Joerg Steinkamp \email{joerg.steinkamp@@senckenberg.de}
 #' @include 500Methods.R
 divide <- function(a,b) {
   class.def <- class(a)
@@ -60,7 +59,6 @@ divide <- function(a,b) {
 #' ret <- divide(x,y)
 #' as.character(ret)
 #' @export
-#' @author Joerg Steinkamp \email{joerg.steinkamp@@senckenberg.de}
 #' @include 500Methods.R
 multiply <- function(a,b) {
   class.def <- class(a)
@@ -106,7 +104,6 @@ multiply <- function(a,b) {
 #' y <- as.DGVMUnit("kg ha^-2")
 #' ret <- equal(x,y)
 #' @export
-#' @author Joerg Steinkamp \email{joerg.steinkamp@@senckenberg.de}
 #' @include 500Methods.R
 equal <- function(a,b) {
   class.def <- class(a)
@@ -142,7 +139,6 @@ equal <- function(a,b) {
 #' y <- as.DGVMUnit("kg ha^-2")
 #' ret <- comparable(x,y)
 #' @export
-#' @author Joerg Steinkamp \email{joerg.steinkamp@@senckenberg.de}
 #' @include 500Methods.R
 comparable <- function(a,b) {
   class.def <- class(a)
