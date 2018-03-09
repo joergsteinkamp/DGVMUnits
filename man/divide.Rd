@@ -23,7 +23,3 @@ y <- as.DGVMUnit("ha")
 ret <- multiply(x,y)
 as.character(ret)
 }
-\author{
-Joerg Steinkamp \email{joerg.steinkamp@senckenberg.de}
-}
-
