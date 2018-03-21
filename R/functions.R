@@ -8,11 +8,11 @@
 #'
 #' @examples
 #' x <- as.DGVMUnit("kg/m2")
-#' y <- as.DGVMUnit("ha")
-#' ret <- multiply(x,y)
+#' y <- as.DGVMUnit("kg m^-2 yr^-1")
+#' ret <- divide(x,y)
 #' as.character(ret)
 #' @export
-#' @include 500Methods.R
+#' @include methods.R
 divide <- function(a,b) {
   class.def <- class(a)
   if (is.null(attr(class.def, "package")))
@@ -42,6 +42,14 @@ divide <- function(a,b) {
   rt@s[1] = a@s[1]^a@s[2] / b@s[1]^b@s[2]
   rt@K[1] = a@K[1]
 
+  ## TODO: there is a problem here, if a unit is canceled out but at different magnitude
+  sapply(slotNames(rt), function(x) {
+    vals = slot(rt, x)
+    if (vals[2] == 0 && vals[1] != 1)
+      warning(paste0("slot '", x, "': ", vals[1]))
+    return(invisible(NULL))
+  })
+  
   return(rt)
 }
 
@@ -55,11 +63,11 @@ divide <- function(a,b) {
 #'
 #' @examples
 #' x <- as.DGVMUnit("kg/m2")
-#' y <- as.DGVMUnit("kg m^-2 yr^-1")
-#' ret <- divide(x,y)
+#' y <- as.DGVMUnit("ha")
+#' ret <- multiply(x,y)
 #' as.character(ret)
 #' @export
-#' @include 500Methods.R
+#' @include methods.R
 multiply <- function(a,b) {
   class.def <- class(a)
   if (is.null(attr(class.def, "package")))
@@ -89,6 +97,14 @@ multiply <- function(a,b) {
   rt@s[1] = a@s[1]^a@s[2] * b@s[1]^b@s[2]
   rt@K[1] = a@K[1]
 
+  ## TODO: there is a problem here, if a unit is canceled out but at different magnitude
+  sapply(slotNames(rt), function(x) {
+    vals = slot(rt, x)
+    if (vals[2] == 0 && vals[1] != 1)
+      warning(paste0("slot '", x, "': ", vals[1]))
+    return(invisible(NULL))
+    })
+  
   return(rt)
 }
 #' Comarison two DGVMUnit objects
@@ -104,7 +120,7 @@ multiply <- function(a,b) {
 #' y <- as.DGVMUnit("kg ha^-2")
 #' ret <- equal(x,y)
 #' @export
-#' @include 500Methods.R
+#' @include methods.R
 equal <- function(a,b) {
   class.def <- class(a)
   if (is.null(attr(class.def, "package")))
@@ -139,7 +155,7 @@ equal <- function(a,b) {
 #' y <- as.DGVMUnit("kg ha^-2")
 #' ret <- comparable(x,y)
 #' @export
-#' @include 500Methods.R
+#' @include methods.R
 comparable <- function(a,b) {
   class.def <- class(a)
   if (is.null(attr(class.def, "package")))

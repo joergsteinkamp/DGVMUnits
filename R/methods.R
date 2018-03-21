@@ -13,7 +13,7 @@
 #' x <- as.DGVMUnit(units)
 #' sapply(x, as.character)
 #' @export
-#' @include 200ClassFunctions.R
+#' @include internal.R
 setMethod("as.character", signature("DGVMUnit"), function(x, ...) {
   return(.as.char(x))
 })
@@ -26,7 +26,7 @@ setMethod("as.character", signature("DGVMUnit"), function(x, ...) {
 #' @param ... Ignored further arguments.
 #' @return an expression
 #'
-#' @include 200ClassFunctions.R
+#' @include internal.R
 #'
 #' @examples
 #' x <- as.DGVMUnit("kW h m-2")
@@ -35,7 +35,7 @@ setMethod("as.character", signature("DGVMUnit"), function(x, ...) {
 #' x <- as.DGVMUnit(units)
 #' sapply(x, as.expression)
 #' @export
-#' @include 200ClassFunctions.R
+#' @include internal.R
 setMethod("as.expression", signature("DGVMUnit"), function(x, ...) {
   x <- .as.char(x)
   x <- gsub(" ", "\u007E", x)

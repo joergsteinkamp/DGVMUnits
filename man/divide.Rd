@@ -19,7 +19,7 @@ Divides two DGVMUnit objects.
 }
 \examples{
 x <- as.DGVMUnit("kg/m2")
-y <- as.DGVMUnit("ha")
-ret <- multiply(x,y)
+y <- as.DGVMUnit("kg m^-2 yr^-1")
+ret <- divide(x,y)
 as.character(ret)
 }

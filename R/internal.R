@@ -1,7 +1,7 @@
 #######################################################################
 ## Internal function to split a string into its unit components #######
 #######################################################################
-#' @include 000ClassDef.R
+#' @include classes.R
 .char.split <- function(x) {
   ## remove the hat
   x <- gsub('\\\u005E', '', x)
@@ -48,7 +48,7 @@
 ## baseunit, scale factor, exponent           #########################
 #######################################################################
 #' @importFrom udunits2 ud.convert
-#' @include 000ClassDef.R
+#' @include classes.R
 .baseunit <- function(x) {
   if (length(x) > 1 && !is.character(x))
     stop(paste("'x' is no character of has a length > 1:", x))
@@ -128,7 +128,7 @@
 #' units <- c("m2 s", "m2/s", "m^2*s", "C d")
 #' x <- as.DGVMUnit(units)
 #' @export
-#' @include 000ClassDef.R
+#' @include classes.R
 as.DGVMUnit <- function(x=NA) {
   if (all(is.na(x)))
     return(new("DGVMUnit"))
@@ -160,7 +160,7 @@ as.DGVMUnit <- function(x=NA) {
 ## return a string, which is udunits/CF conform #######################
 #######################################################################
 #' @importFrom udunits2 ud.convert
-#' @include 000ClassDef.R
+#' @include classes.R
 .as.char <- function(x) {
   class.def <- class(x)
   if (is.null(attr(class.def, "package")))
