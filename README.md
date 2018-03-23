@@ -1,5 +1,9 @@
 # DGVMUnits
 
+[![Build Status](https://travis-ci.org/joergsteinkamp/DGVMUnits.svg?branch=master)](https://travis-ci.org/joergsteinkamp/DGVMUnits)
+[![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/DGVMUnits)](https://cran.r-project.org/package=DGVMUnits)
+[![Downloads](https://cranlogs.r-pkg.org/badges/DGVMUnits)](https://cran.r-project.org/package=DGVMUnits)
+
 Simple unit conversion and parsing for Vegetation and (not yet) Climate modelling.
 
 ```{r}
