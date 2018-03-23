@@ -1,22 +1,19 @@
 #' An S4 class holding the unit information.
 #'
-#'Each slot consists of a two element vector, holding the numeric unit prefix (multiplier) and exponent (the nominator is positive and the denominator negative).
+#' Each slot holds the same number of elements, which are used to construct a unit string. 
+#' short and long name, numeric unit prefix (multiplier), exponent (the nominator is positive and the denominator negative)
+#' and a reference (if not required it should be NA).
 #'
-#' @slot g for gram
-#' @slot m for meter
-#' @slot W for watts
-#' @slot s for seconds
-#' @slot K for Kelvin
+#' @slot shortname hold sthe units short name (e.g. "g", "m", ...)
+#' @slot longname can hold the long name (e.g. "gram", "meter", ...)
+#' @slot multiplier if given with a prefix, e.g. k (kilo) it will become 1000
+#' @slot exponent 
+#' @slot reference can hold a name to what the unit relates
 #' @import methods
 setClass("DGVMUnit",
-         representation(g="numeric",
-                        m="numeric",
-                        W="numeric",
-                        s="numeric",
-                        K="numeric"),
-         prototype(g=c(1, 0),
-                   m=c(1, 0),
-                   W=c(1, 0),
-                   s=c(1, 0),
-                   K=c(1, 0)
-                   ))
+         representation(shortname="character",
+                        longname="character",
+                        scale="numeric",
+                        offset="numeric",
+                        exponent="numeric",
+                        reference="character"))
