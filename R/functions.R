@@ -64,8 +64,9 @@ as.DGVMUnit <- function(x=NA) {
 #' @export
 #' @include methods.R
 divide <- function(a, b) {
+
   stop("Due to restructuring not yet working!")
-  
+
   class.def <- class(a)
   if (is.null(attr(class.def, "package")))
     stop("Input seems not to be a class.")
@@ -121,7 +122,9 @@ divide <- function(a, b) {
 #' @export
 #' @include methods.R
 multiply <- function(a, b) {
+
   stop("Due to restructuring not yet working!")
+
   class.def <- class(a)
   if (is.null(attr(class.def, "package")))
     stop("Input seems not to be a class.")
