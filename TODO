@@ -1,3 +1,7 @@
 Find a way how to handle Joule (J = Ws)
 
-make use of slot reference (e.g. for LAI with m^2 m^-2)
+make use of slot reference (e.g. for LAI with m^2 m^-2), so they don' cancel out
+
+make sure, that the scale factor of canceled out unit slots isn't forgotten
+
+move the scale factor to other unit slots
