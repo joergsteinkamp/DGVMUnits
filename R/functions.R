@@ -10,7 +10,7 @@
 #' units <- c("m2 s", "m2/s", "m^2*s", "C d")
 #' x <- as.DGVMUnit(units)
 #' @export
-#' @importFrom udunits ud.is.parseable
+#' @importFrom udunits2 ud.is.parseable
 #' @include classes.R 
 #' @include internal.R
 as.DGVMUnit <- function(x=NA) {
@@ -48,7 +48,80 @@ as.DGVMUnit <- function(x=NA) {
   return(ret)
 }
 
-#' Division of two unit strings
+##############################
+## Cancel equal components ###
+##############################
+## helper function, to handle NAs in the reference slot like values
+.equal.reference <- function(a, b) {
+  if (is.na(a) && !is.na(b)) {
+    return(FALSE)
+  } else if (!is.na(a) && is.na(b)) {
+    return(FALSE)
+  } else if (all(!is.na(c(a, b)))) {
+    if (a != b)
+      return(FALSE)
+  }
+  return(TRUE)
+}
+
+#' Cancel equal unit parts
+#'
+#' @param x a \code{\linkS4class{DGVMUnit}} object
+#'
+#' @return a \code{\linkS4class{DGVMUnit}} object
+#' @export
+#'
+#' @examples
+#' x <- as.DGVMUnit("kg m s^-1 km^-2")
+#' as.character(cancel(x))
+cancel <- function(x) {
+  class.def <- class(x)
+  if (is.null(attr(class.def, "package")))
+    stop("Input seems not to be a class.")
+  if (class.def[1] != "DGVMUnit" && attr(class.def, "package") != "DGVMUnits")
+    stop("Input not class DGVMUnits:DGVMUnit")
+  
+  if (length(x@shortname) == 1)
+    return(x)
+  
+  canceled <- 0
+  ret <- new("DGVMUnit")
+  for (i in 1:(length(x@shortname) - 1)) {
+    for (j in (i+1):length(x@shortname)) {
+      if (x@shortname[i] == x@shortname[j] && 
+          .equal.reference(x@reference[i], x@reference[j])) {
+        canceled = append(canceled, c(i, j))
+        print(paste("canceling",i, j))
+        ret@shortname = append(ret@shortname, x@shortname[j])
+        ret@longname  = append(ret@longname,  x@longname[j])
+        ret@scale     = append(ret@scale,     x@scale[i]^x@exponent[i] * x@scale[j]^x@exponent[i])
+        ## TODO: find out how to handle offsets
+        if (x@offset[i] != x@offset[j])
+          stop("Don't know how to handle different offsets!")
+        ret@offset    = append(ret@offset,    x@offset[j])
+        ret@exponent  = append(ret@exponent,  x@exponent [i] + x@exponent[j])
+        ret@reference = append(ret@reference, x@reference[j])
+      } else if (!any(canceled == j) && i == j - 1 && j == length(x@shortname)) {
+        ret@shortname = append(ret@shortname, x@shortname[j])
+        ret@longname  = append(ret@longname,  x@longname[j])
+        ret@scale     = append(ret@scale,     x@scale[j])
+        ret@offset    = append(ret@offset,    x@offset[j])
+        ret@exponent  = append(ret@exponent,  x@exponent[j])
+        ret@reference = append(ret@reference, x@reference[j])
+      }
+    }
+    if (!any(canceled == i)) {
+      ret@shortname = append(ret@shortname, x@shortname[i])
+      ret@longname  = append(ret@longname,  x@longname[i])
+      ret@scale     = append(ret@scale,     x@scale[i])
+      ret@offset    = append(ret@offset,    x@offset[i])
+      ret@exponent  = append(ret@exponent,  x@exponent[i])
+      ret@reference = append(ret@reference, x@reference[i])
+    }
+  }
+  return(ret)
+}
+
 #' 
 #' Divides two DGVMUnit objects.
 #'
@@ -64,9 +137,6 @@ as.DGVMUnit <- function(x=NA) {
 #' @export
 #' @include methods.R
 divide <- function(a, b) {
-
-  stop("Due to restructuring not yet working!")
-
   class.def <- class(a)
   if (is.null(attr(class.def, "package")))
     stop("Input seems not to be a class.")
@@ -77,33 +147,12 @@ divide <- function(a, b) {
     stop("Input seems not to be a class.")
   if (class.def[1] != "DGVMUnit" && attr(class.def, "package") != "DGVMUnits")
     stop("Input not class DGVMUnits:DGVMUnit")
-
-  if (a@K[1] != b@K[1])
-    stop("Cannot divide Kelvin and Celsius!")
   
-  rt <- new("DGVMUnit")
-  
-  rt@g[2] = a@g[2] - b@g[2]
-  rt@m[2] = a@m[2] - b@m[2]
-  rt@W[2] = a@W[2] - b@W[2]
-  rt@s[2] = a@s[2] - b@s[2]
-  rt@K[2] = a@K[2] - b@K[2]
-  
-  rt@g[1] = a@g[1]^a@g[2] / b@g[1]^b@g[2]
-  rt@m[1] = a@m[1]^a@m[2] / b@m[1]^b@m[2]
-  rt@W[1] = a@W[1]^a@W[2] / b@W[1]^b@W[2]
-  rt@s[1] = a@s[1]^a@s[2] / b@s[1]^b@s[2]
-  rt@K[1] = a@K[1]
-
-  ## TODO: there is a problem here, if a unit is canceled out but was at different magnitudes
-  sapply(slotNames(rt), function(x) {
-    vals = slot(rt, x)
-    if (vals[2] == 0 && vals[1] != 1)
-      warning(paste0("slot '", x, "': ", vals[1]))
-    return(invisible(NULL))
-  })
-  
-  return(rt)
+  a <- cancel(a)
+  b <- cancel(b)
+  for (i in 1:length(b@shortname)) 
+    b@exponent[i] = -b@exponent[i]
+  cancel(as.DGVMUnit(paste(.as.char(a), .as.char(b))))
 }
 
 #' Multiplication of two DGVMUnit objects
@@ -122,9 +171,6 @@ divide <- function(a, b) {
 #' @export
 #' @include methods.R
 multiply <- function(a, b) {
-
-  stop("Due to restructuring not yet working!")
-
   class.def <- class(a)
   if (is.null(attr(class.def, "package")))
     stop("Input seems not to be a class.")
@@ -135,33 +181,10 @@ multiply <- function(a, b) {
     stop("Input seems not to be a class.")
   if (class.def[1] != "DGVMUnit" && attr(class.def, "package") != "DGVMUnits")
     stop("Input not class DGVMUnits:DGVMUnit")
-
-  if (a@K[1] != b@K[1])
-    stop("Cannot divide Kelvin and Celsius!")
   
-  rt <- new("DGVMUnit")
-  
-  rt@g[2] = a@g[2] + b@g[2]
-  rt@m[2] = a@m[2] + b@m[2]
-  rt@W[2] = a@W[2] + b@W[2]
-  rt@s[2] = a@s[2] + b@s[2]
-  rt@K[2] = a@K[2] + b@K[2]
-
-  rt@g[1] = a@g[1]^a@g[2] * b@g[1]^b@g[2]
-  rt@m[1] = a@m[1]^a@m[2] * b@m[1]^b@m[2]
-  rt@W[1] = a@W[1]^a@W[2] * b@W[1]^b@W[2]
-  rt@s[1] = a@s[1]^a@s[2] * b@s[1]^b@s[2]
-  rt@K[1] = a@K[1]
-
-  ## TODO: there is a problem here, if a unit is canceled out but was at different magnitudes
-  sapply(slotNames(rt), function(x) {
-    vals = slot(rt, x)
-    if (vals[2] == 0 && vals[1] != 1)
-      warning(paste0("slot '", x, "': ", vals[1]))
-    return(invisible(NULL))
-    })
-  
-  return(rt)
+  a <- cancel(a)
+  b <- cancel(b)
+  cancel(as.DGVMUnit(paste(.as.char(a), .as.char(b))))
 }
 #' Comarison two DGVMUnit objects
 #' 
@@ -190,13 +213,13 @@ equal <- function(a, b) {
   if (class.def[1] != "DGVMUnit" && attr(class.def, "package") != "DGVMUnits")
     stop("Input not class DGVMUnits:DGVMUnit")
 
-  if (!ud.is.parseable(.as.char(x)))
-    stop(paste0("'", .as.char(x), "' not paeseable by udunits2!"))
-  if (!ud.is.parseable(.as.char(y)))
-    stop(paste0("'", .as.char(y), "' not paeseable by udunits2!"))
+  if (!ud.is.parseable(.as.char(a)))
+    stop(paste0("'", .as.char(a), "' not paeseable by udunits2!"))
+  if (!ud.is.parseable(.as.char(b)))
+    stop(paste0("'", .as.char(b), "' not paeseable by udunits2!"))
   
-  if (ud.are.convertible(.as.char(x), .as.char(y)))
-    if (ud.convert(1, .as.char(x), .as.char(y)) == 1)
+  if (ud.are.convertible(.as.char(a), .as.char(b)))
+    if (ud.convert(1, .as.char(a), .as.char(b)) == 1)
       return(TRUE)
   return(FALSE)
 }
@@ -228,7 +251,7 @@ comparable <- function(a, b) {
   if (class.def[1] != "DGVMUnit" && attr(class.def, "package") != "DGVMUnits")
     stop("Input not class DGVMUnits:DGVMUnit")
  
-  if (ud.are.convertible(.as.char(x), .as.char(y)))
+  if (ud.are.convertible(.as.char(a), .as.char(b)))
     return(TRUE)
   return(FALSE)
 }

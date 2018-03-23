@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{divide}
 \alias{divide}
-\title{Division of two unit strings}
+\title{Divides two DGVMUnit objects.}
 \usage{
 divide(a, b)
 }

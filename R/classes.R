@@ -6,9 +6,10 @@
 #'
 #' @slot shortname hold sthe units short name (e.g. "g", "m", ...)
 #' @slot longname can hold the long name (e.g. "gram", "meter", ...)
-#' @slot multiplier if given with a prefix, e.g. k (kilo) it will become 1000
-#' @slot exponent 
-#' @slot reference can hold a name to what the unit relates
+#' @slot scale if given with a prefix, e.g. k (kilo) it will become 1000
+#' @slot offset if a value needs to be added or substracted, e.g. for temperatures degree C -> K
+#' @slot exponent the exponent of the unit
+#' @slot reference can hold a name to what the unit relates (if it differes for the same unit, they don't calcel out)
 #' @import methods
 setClass("DGVMUnit",
          representation(shortname="character",

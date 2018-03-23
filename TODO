@@ -1,5 +1,3 @@
-Find a way how to handle Joule (J=Ws)
+Find a way how to handle Joule (J = Ws)
 
-"m^2 m^-2" for LAI or "g/g" for specific humidity do not work.
-
-
+make use of slot reference (e.g. for LAI with m^2 m^-2)
